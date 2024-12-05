@@ -4,7 +4,7 @@ export default {
 }
 </script>
 <template>
-  <div id="form" class="page hidden">
+  <div id="form" class="page">
     <p>Añadir libro</p>
     <form id="bookForm" novalidate>
       <div class="hidden">

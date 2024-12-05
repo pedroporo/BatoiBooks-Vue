@@ -30,7 +30,7 @@ export default {
 };
 </script>
 <template>
-  <div id="list" class="page hidden">
+  <div id="list" class="page">
     <book-item
       v-for="book in books"
       :key="book.id"

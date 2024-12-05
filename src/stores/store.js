@@ -1,21 +1,5 @@
 import { reactive } from "vue";
-import axios from "axios";
-
-const apiClient = axios.create({
-  baseURL: "http://localhost:3000",
-  withCredentials: false,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
-export const books = {
-  getAll: () => apiClient.get(`/books`),
-  getOne: (id) => apiClient.get(`/books/${id}`),
-  create: (book) => apiClient.post(`/books`, book),
-  modify: (book) => apiClient.put(`/books/${book.id}`, book),
-  delete: (id) => apiClient.delete(`/books/${id}`),
-};
+import api from './api';
 export const store = {
   state: reactive({
     books: [],

@@ -32,10 +32,7 @@ export default {
   </header>
   <app-menu></app-menu>
   <app-mesages></app-mesages>
-  <book-list></book-list>
-  <add-book></add-book>
-  <add-cart></add-cart>
-  <about-view></about-view>
+  <router-view></router-view>
 </template>
 
 <style></style>

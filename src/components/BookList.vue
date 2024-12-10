@@ -15,17 +15,6 @@ export default {
     },
   },
   methods: {
-    /*async getData() {
-      try {
-        const response = await apiService.books.getAll();
-        console.log(response.data);
-
-        this.books = response.data;
-        return response.data;
-      } catch (response) {
-        console.error("Error: " + response.message);
-      }
-    },*/
     delBook(index) {
       store.delBook(index, 1);
     },

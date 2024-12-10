@@ -15,10 +15,6 @@ export const store = {
   addTodo(todo) {
     this.state.todos.push(todo);
   },
-  delBook(index) {
-
-    this.state.books.splice(index, 1);
-  },
   async delBook(index) {
     try {
       const indice=this.state.books.findIndex(book => book.id===index);

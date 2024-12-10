@@ -2,6 +2,7 @@
 export default {
   name: "BookItem",
   props: ["book", "index"],
+  emits: ["delete-book"],
   methods: {
     renderNowDateInfo(date) {
       if (!date) {
@@ -9,6 +10,11 @@ export default {
       } else {
         const dateObject = new Date(date);
         return `Vendido el ${dateObject.toLocaleDateString()}`;
+      }
+    },
+    delBook() {
+      if (confirm("Estas seguro de eliminar el libro con id: "+this.book.id)) {
+        this.$emit("delete-book", this.index);
       }
     },
   },
@@ -29,7 +35,7 @@ export default {
           <span class="material-icons">add_shopping_cart</span>
         </button>
         <button class="edit"><span class="material-icons">edit</span></button>
-        <button class="remove">
+        <button @click="delBook" class="remove">
           <span class="material-icons">delete</span>
         </button>
       </div>

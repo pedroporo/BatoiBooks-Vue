@@ -26,6 +26,9 @@ export default {
         console.error("Error: " + response.message);
       }
     },*/
+    delBook(index) {
+      store.delBook(index, 1);
+    },
   },
 };
 </script>
@@ -36,6 +39,7 @@ export default {
       :key="book.id"
       :book="book"
       :index="book.id"
+      @delete-book="delBook"
     >
     </book-item>
   </div>

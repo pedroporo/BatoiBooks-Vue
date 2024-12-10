@@ -2136,18 +2136,6 @@
       "comments": ""
     },
     {
-      "userId": 3,
-      "moduleCode": "5021",
-      "publisher": "McGraw-Hill",
-      "price": 75,
-      "pages": 273,
-      "status": "new",
-      "photo": "",
-      "comments": "Sense obrir",
-      "soldDate": "",
-      "id": "6"
-    },
-    {
       "userId": 4,
       "moduleCode": "5021",
       "publisher": "McGraw-Hill",
@@ -2194,24 +2182,6 @@
       "comments": "",
       "soldDate": "",
       "id": "10"
-    },
-    {
-      "id": "0075",
-      "publisher": "Apunts",
-      "price": "12",
-      "moduleCode": "0015",
-      "status": "good",
-      "pages": "12",
-      "comments": ""
-    },
-    {
-      "id": "b95e",
-      "publisher": "Apunts",
-      "price": "12",
-      "moduleCode": "0011",
-      "status": "good",
-      "pages": "12",
-      "comments": ""
     },
     {
       "id": "b88e",
@@ -2329,25 +2299,6 @@
       "status": "good",
       "pages": "12",
       "comments": ""
-    },
-    {
-      "id": "5918",
-      "publisher": "Apunts",
-      "price": "1000",
-      "moduleCode": "0013",
-      "status": "used",
-      "pages": "1000",
-      "comments": ""
-    },
-    {
-      "id": "8ba0",
-      "publisher": "Apunts",
-      "price": "12",
-      "moduleCode": "0017",
-      "status": "new",
-      "pages": "12",
-      "comments": "",
-      "userId": 5
     }
   ]
 }

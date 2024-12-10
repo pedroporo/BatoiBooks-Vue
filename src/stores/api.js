@@ -22,3 +22,7 @@ export const modules = {
   modify: (book) => apiClient.put(`/modules/${book.id}`, book),
   delete: (id) => apiClient.delete(`/modules/${id}`),
 };
+export default {
+  books,
+  modules
+}

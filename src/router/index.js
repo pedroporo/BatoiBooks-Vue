@@ -8,26 +8,31 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: "/",
+      name: "home",
       component: HomeView,
     },
     {
-      path: '/list',
-      name: 'list',
+      path: "/list",
+      name: "list",
       component: BookList,
     },
     ,
     {
-      path: '/addBook',
-      name: 'addBook',
+      path: "/addBook",
+      name: "addBook",
       component: AddBook,
     },
     {
-      path: '/:pathMatch(.*)*',
-      component: PathNotFound
+      path: "/edit/:id",
+      name: "edit",
+      component: AddBook,
+      props: true,
     },
-    
+    {
+      path: "/:pathMatch(.*)*",
+      component: PathNotFound,
+    },
   ],
 });
 

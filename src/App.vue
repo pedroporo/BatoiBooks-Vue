@@ -6,6 +6,7 @@ import BookList from "./components/BookList.vue";
 import AddBook from "./components/AddBook.vue";
 import AddCart from "./components/AddCart.vue";
 import AboutView from "./views/AboutView.vue";
+import { store } from "./stores/store";
 export default {
   name: "App",
   components: {
@@ -16,12 +17,17 @@ export default {
     AddCart,
     AboutView,
   },
+  async mounted() {
+    await store.getBooks();
+    await store.getModules();
+  },
   data() {
     return {
       batoiLogo,
     };
   },
-  methods: {},
+  methods: {
+  },
 };
 </script>
 

@@ -18,6 +18,9 @@ export default {
     delBook(index) {
       store.delBook(index, 1);
     },
+    editBook(index) {
+      this.$router.push({ name: "edit", params: { id: index } });
+    },
   },
 };
 </script>
@@ -29,6 +32,7 @@ export default {
       :book="book"
       :index="book.id"
       @delete-book="delBook"
+      @edit-book="editBook"
     >
     </book-item>
   </div>

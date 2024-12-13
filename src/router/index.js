@@ -4,13 +4,14 @@ import HomeView from "../views/HomeView.vue";
 import BookList from "@/components/BookList.vue";
 import PathNotFound from "@/components/PathNotFound.vue";
 import AddBook from "@/components/AddBook.vue";
+import AboutView from "../views/AboutView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: BookList,
     },
     {
       path: "/list",
@@ -28,6 +29,11 @@ const router = createRouter({
       name: "edit",
       component: AddBook,
       props: true,
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: AboutView,
     },
     {
       path: "/:pathMatch(.*)*",

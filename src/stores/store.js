@@ -5,7 +5,7 @@ export const store = {
     states: ["new", "good", "used", "bad"],
     books: [],
     modules: [],
-    messages: [{ tipo: "success", message: "test" }],
+    messages: [],
   }),
   async getBooks() {
     try {
@@ -40,6 +40,16 @@ export const store = {
   async addBook(book) {
     try {
       const response = await api.books.create(book);
+      if (response) {
+        this.state.books.push(book);
+      }
+    } catch (response) {
+      console.error("Error: " + response.message);
+    }
+  },
+  async modBook(book) {
+    try {
+      const response = await api.books.modify(book);
       if (response) {
         this.state.books.push(book);
       }

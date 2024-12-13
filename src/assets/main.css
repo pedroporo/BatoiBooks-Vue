@@ -55,9 +55,9 @@ header {
 #list {
   grid-area: list;
   color: #1a1a1a;
-  padding: 20px;
-  margin-top: 15%;
-  margin-left: 23%;
+  /*padding: 20px;*/
+  margin-top: 30%;
+  /*margin-left: 2%;*/
   /*margin: 3% 2% 1% 25%;*/
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

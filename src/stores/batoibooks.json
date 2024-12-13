@@ -2301,27 +2301,12 @@
       "comments": ""
     },
     {
-      "id": "06e7",
-      "moduleCode": "0011",
-      "publisher": "Pedro",
-      "price": 12,
-      "pages": 12,
-      "state": "new"
-    },
-    {
-      "id": "c7e0",
+      "id": "f659",
       "moduleCode": "0011",
       "publisher": "Pepe",
-      "price": 12,
-      "pages": 12
-    },
-    {
-      "id": "be5c",
-      "moduleCode": "0031",
-      "publisher": "sdf",
-      "price": 1,
-      "pages": 1,
-      "state": "new"
+      "price": 1000,
+      "pages": 1000,
+      "status": "new"
     }
   ]
 }

@@ -12,6 +12,11 @@ export default {
       this.getBook();
     }
   },
+  watch: {
+    book(id, oldId) {
+      id !== oldId ? this.getBook : (this.book = {});
+    },
+  },
   computed: {
     modules() {
       return store.state.modules;
@@ -22,21 +27,37 @@ export default {
   },
   methods: {
     addBook() {
-      store.addBook(this.book);
+      try {
+        if (!this.book.id) {
+          store.addBook(this.book);
+        } else {
+          store.modBook(this.book);
+        }
+      } catch (error) {
+        console.log(error);
+      }
       this.book = {};
       this.$router.push({ path: "list" });
     },
+    controlForm() {
+      if (!this.book.id) {
+        this.book = {};
+      } else {
+        this.getBook();
+      }
+    },
     async getBook() {
-      this.book =await store.getBook(this.$route.params.id);
+      this.book = await store.getBook(this.$route.params.id);
     },
   },
 };
 </script>
 <template>
   <div id="form" class="page">
-    <p>Añadir libro</p>
-    <form id="bookForm" @submit.prevent="addBook">
-      <div class="hidden">
+    <p v-if="!this.book.id">Añadir libro</p>
+    <p v-else>Editar libro</p>
+    <form ref="bookForm" @submit.prevent="addBook" @reset.prevent="controlForm">
+      <div :class="{ hidden: !book.id }">
         <label for="id-book" id="label-id-book">Id:</label>
         <input type="text" v-model="book.id" id="id-book" disabled />
       </div>
@@ -106,7 +127,8 @@ export default {
         <textarea v-model="book.comments" id="comments"></textarea>
       </div>
 
-      <button type="submit">Añadir</button>
+      <button v-if="!book.id" type="submit">Añadir</button>
+      <button v-else type="submit">Editar</button>
       <button type="reset">Reset</button>
     </form>
   </div>

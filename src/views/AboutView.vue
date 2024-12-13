@@ -1,5 +1,5 @@
 <template>
-  <div id="about" class="page hidden">
+  <div id="about" class="page">
     <footer>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum nulla atque
       eaque, soluta aliquid deleniti magni nemo aliquam itaque eos quis

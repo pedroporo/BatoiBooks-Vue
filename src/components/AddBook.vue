@@ -1,5 +1,8 @@
 <script>
-import { store } from "@/stores/store";
+//import { store } from "@/stores/store";
+import { useBooksStore } from "../stores/bookStore";
+import { useModulesStore } from "../stores/modulesStore";
+import { mapState, mapActions } from "pinia";
 export default {
   name: "AddBok",
   data() {
@@ -9,29 +12,30 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.getBook();
+      this.getBookId();
     }
   },
   watch: {
-    book(id, oldId) {
-      id !== oldId ? this.getBook : (this.book = {});
+    $route(newValue, oldValue) {
+      newValue.params.id !== oldValue.params.id ? this.getBookId() : {};
     },
   },
   computed: {
-    modules() {
-      return store.state.modules;
-    },
-    states() {
-      return store.state.states;
-    },
+    ...mapState(useModulesStore, {
+      modules: "modules",
+    }),
+    ...mapState(useBooksStore, {
+      states: "states",
+      getBook: "getBook",
+    }),
   },
   methods: {
-    addBook() {
+    async addBooks() {
       try {
         if (!this.book.id) {
-          store.addBook(this.book);
+          await this.addBook(this.book);
         } else {
-          store.modBook(this.book);
+          await this.modBook(this.book);
         }
       } catch (error) {
         console.log(error);
@@ -43,12 +47,13 @@ export default {
       if (!this.book.id) {
         this.book = {};
       } else {
-        this.getBook();
+        this.getBookId();
       }
     },
-    async getBook() {
-      this.book = await store.getBook(this.$route.params.id);
+    async getBookId() {
+      this.book = await this.getBook(this.$route.params.id);
     },
+    ...mapActions(useBooksStore, ['modBook','addBook']),
   },
 };
 </script>
@@ -56,7 +61,7 @@ export default {
   <div id="form" class="page">
     <p v-if="!this.book.id">Añadir libro</p>
     <p v-else>Editar libro</p>
-    <form ref="bookForm" @submit.prevent="addBook" @reset.prevent="controlForm">
+    <form ref="bookForm" @submit.prevent="addBooks" @reset.prevent="controlForm">
       <div :class="{ hidden: !book.id }">
         <label for="id-book" id="label-id-book">Id:</label>
         <input type="text" v-model="book.id" id="id-book" disabled />
@@ -66,7 +71,7 @@ export default {
         <label for="id-module">Módulo:</label>
         <select id="id-module" v-model="book.moduleCode" required>
           <option default hidden value="">- Selecciona un módulo -</option>
-          <option v-for="module in modules" :value="module.code">
+          <option v-for="module in this.modules" :value="module.code">
             {{ module.cliteral }}
           </option>
         </select>

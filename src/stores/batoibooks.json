@@ -2304,9 +2304,9 @@
       "id": "f659",
       "moduleCode": "0011",
       "publisher": "Pepe",
-      "price": 1000,
-      "pages": 1000,
-      "status": "new"
+      "price": 10001,
+      "pages": 10001,
+      "status": "good"
     }
   ]
 }

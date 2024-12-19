@@ -41,7 +41,7 @@ export default {
         console.log(error);
       }
       this.book = {};
-      this.$router.push({ path: "list" });
+      this.$router.push({ path: "/list" });
     },
     controlForm() {
       if (!this.book.id) {
@@ -64,7 +64,7 @@ export default {
     <form ref="bookForm" @submit.prevent="addBooks" @reset.prevent="controlForm">
       <div :class="{ hidden: !book.id }">
         <label for="id-book" id="label-id-book">Id:</label>
-        <input type="text" v-model="book.id" id="id-book" disabled />
+        <input type="number" v-model.number="book.id" id="id-book" disabled />
       </div>
 
       <div>
@@ -92,7 +92,7 @@ export default {
           min="0"
           step="0.01"
           required
-          v-model="book.price"
+          v-model.number="book.price"
         />
         <span class="errorM"></span>
       </div>
@@ -105,7 +105,7 @@ export default {
           required
           min="0"
           step="1"
-          v-model="book.pages"
+          v-model.number="book.pages"
         />
         <span class="errorM"></span>
       </div>

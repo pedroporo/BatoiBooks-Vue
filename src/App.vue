@@ -9,6 +9,7 @@ import AboutView from "./views/AboutView.vue";
 //import { store } from "./stores/store";
 import { useBooksStore } from "./stores/bookStore";
 import { useModulesStore } from "./stores/modulesStore";
+import { useCartStore } from "./stores/carritoStore";
 import { mapState, mapActions } from "pinia";
 export default {
   name: "App",
@@ -23,6 +24,7 @@ export default {
   async mounted() {
     await this.populateBooks();
     await this.populateModules();
+    this.populateCart();
   },
   data() {
     return {
@@ -32,6 +34,7 @@ export default {
   methods: {
     ...mapActions(useBooksStore, ["populateBooks"]),
     ...mapActions(useModulesStore, ["populateModules"]),
+    ...mapActions(useCartStore, ["populateCart"]),
   },
 };
 </script>

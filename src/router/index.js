@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-//import ListView from "@/views/ListView.vue";
 import BookList from "@/components/BookList.vue";
 import PathNotFound from "@/components/PathNotFound.vue";
 import AddBook from "@/components/AddBook.vue";
 import AboutView from "../views/AboutView.vue";
+import AddCart from "@/components/AddCart.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -18,11 +18,15 @@ const router = createRouter({
       name: "list",
       component: BookList,
     },
-    ,
     {
       path: "/addBook",
       name: "addBook",
       component: AddBook,
+    },
+    {
+      path: "/cart",
+      name: "carrito",
+      component: AddCart,
     },
     {
       path: "/edit/:id",
@@ -31,8 +35,8 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/about',
-      name: 'about',
+      path: "/about",
+      name: "about",
       component: AboutView,
     },
     {

@@ -2,6 +2,7 @@
 /*import { store } from "../stores/store";*/
 import BookItem from "./BookItem.vue";
 import { useBooksStore } from "../stores/bookStore";
+import { useCartStore } from "@/stores/carritoStore";
 import { mapState, mapActions } from "pinia";
 export default {
   name: "BookList",
@@ -17,18 +18,17 @@ export default {
     }),
   },
   methods: {
-    delBook(index) {
-      /*store.delBook(index, 1);*/
-      //this.delBook(index);
-      console.log(index);
-      
+    delBook(book) {
+      this.delBook(book.id);
     },
-    editBook(index) {
-      //this.$router.push({ name: "edit", params: { id: index } });
-      console.log(index);
-      
+    editBook(book) {
+      this.$router.push({ name: "edit", params: { id: book.id } });
+    },
+    addToCart(book) {
+      this.addBook(book);
     },
     ...mapActions(useBooksStore, ["populateBooks", "delBook"]),
+    ...mapActions(useCartStore, ["addBook"]),
   },
 };
 </script>
@@ -39,15 +39,14 @@ export default {
       :key="book.id"
       :book="book"
       :index="book.id"
-     
     >
-      <button class="add-to-cart">
+      <button @click="addToCart(book)" class="add-to-cart">
         <span class="material-icons">add_shopping_cart</span>
       </button>
-      <button @click="editBook" class="edit">
+      <button @click="editBook(book)" class="edit">
         <span class="material-icons">edit</span>
       </button>
-      <button @click="delBook" class="remove">
+      <button @click="delBook(book)" class="remove">
         <span class="material-icons">delete</span>
       </button>
     </book-item>

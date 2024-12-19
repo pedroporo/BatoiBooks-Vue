@@ -43,7 +43,7 @@ export const useBooksStore = defineStore("bookStore", {
     async delBook(index) {
       try {
         const indice = this.books.findIndex((book) => book.id === index);
-        const response = await api.books.delete(index);
+        const response = await api.books.delete(index.id);
         if (response) {
           this.books.splice(indice, 1);
         }

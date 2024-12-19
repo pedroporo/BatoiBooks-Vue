@@ -52,7 +52,8 @@ header h1 {
 header {
   grid-area: header;
 }
-#list {
+#list,
+#cart {
   grid-area: list;
   color: #1a1a1a;
   padding: 20px;

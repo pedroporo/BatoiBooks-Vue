@@ -3,11 +3,26 @@
 import { useBooksStore } from "../stores/bookStore";
 import { useModulesStore } from "../stores/modulesStore";
 import { mapState, mapActions } from "pinia";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
 export default {
   name: "AddBok",
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
   data() {
+    const bookSchema = yup.object({
+      moduleCode: yup.string().required('Tienes que seleccionar algun modulo'),
+      publisher: yup.string().required('La Editorial es OBLIGATORIA'),
+      price: yup.number('En este campo solo se permiten numeros').required('Lo siento esto no es gratis, tienes que meter un precio').min(0,'El precio ha de ser mayor que 0'),
+      pages: yup.number('En este campo solo se permiten numeros').required('¿Como pretendes registrar un libro si no lo presentas?').min(0,'¿Que quieres entregar, la portada solamente? Añade mas de 0 paginas'),
+      state: yup.string('¿Como te las has apañado para meter algo que no es un texto aqui?').required('¿Por que no quieres meter el estado del libro?¿Que escondes?').matches(/(new|good|used|bad)/,'Oye, solo se puede seleccionar new,good,used,bad. ¿Como te las arreglaste para meter algo que no sea eso?'),
+    });
     return {
       book: {},
+      bookSchema,
     };
   },
   mounted() {
@@ -32,6 +47,7 @@ export default {
   methods: {
     async addBooks() {
       try {
+        this.book.userId = 5;
         if (!this.book.id) {
           await this.addBook(this.book);
         } else {
@@ -53,7 +69,7 @@ export default {
     async getBookId() {
       this.book = await this.getBook(this.$route.params.id);
     },
-    ...mapActions(useBooksStore, ['modBook','addBook']),
+    ...mapActions(useBooksStore, ["modBook", "addBook"]),
   },
 };
 </script>
@@ -61,80 +77,98 @@ export default {
   <div id="form" class="page">
     <p v-if="!this.book.id">Añadir libro</p>
     <p v-else>Editar libro</p>
-    <form ref="bookForm" @submit.prevent="addBooks" @reset.prevent="controlForm">
+    <Form
+      ref="bookForm"
+      :v-model="book"
+      :validation-schema="bookSchema"
+      @submit="addBooks"
+      @reset="controlForm"
+    >
       <div :class="{ hidden: !book.id }">
-        <label for="id-book" id="label-id-book">Id:</label>
-        <input type="number" v-model.number="book.id" id="id-book" disabled />
+        <label for="id" id="label-id-book">Id:</label>
+        <Field name="id" v-model.number="book.id" type="number" disabled />
       </div>
-
       <div>
-        <label for="id-module">Módulo:</label>
-        <select id="id-module" v-model="book.moduleCode" required>
+        <label for="moduleCode">Módulo:</label>
+        <Field
+          as="select"
+          name="moduleCode"
+          class="form-control"
+          v-model="book.moduleCode"
+          required
+        >
           <option default hidden value="">- Selecciona un módulo -</option>
           <option v-for="module in this.modules" :value="module.code">
             {{ module.cliteral }}
           </option>
-        </select>
-        <span class="errorM"></span>
+        </Field>
+        <br>
+        <ErrorMessage class="errorM" name="moduleCode" />
       </div>
-
       <div>
         <label for="publisher">Editorial:</label>
-        <input type="text" id="publisher" required v-model="book.publisher" />
-        <span class="errorM"></span>
+        <Field name="publisher" v-model="book.publisher" type="text" required />
+        <br>
+        <ErrorMessage class="errorM" name="publisher" />
       </div>
-
       <div>
         <label for="price">Precio:</label>
-        <input
+        <Field
+          name="price"
+          v-model.number="book.price"
           type="number"
-          id="price"
           min="0"
           step="0.01"
           required
-          v-model.number="book.price"
         />
-        <span class="errorM"></span>
+        <br>
+        <ErrorMessage class="errorM" name="price" />
       </div>
-
       <div>
         <label for="pages">Páginas:</label>
-        <input
+        <Field
+          name="pages"
+          v-model.number="book.pages"
           type="number"
-          id="pages"
-          required
           min="0"
           step="1"
-          v-model.number="book.pages"
+          required
         />
-        <span class="errorM"></span>
+        <br>
+        <ErrorMessage class="errorM" name="pages" />
       </div>
-
       <div id="status">
         <label>Estado:</label>
         <!-- Aquí poned un radiobutton para cada estado -->
         <label v-for="state in states">
-          <input
-            type="radio"
+          <Field
+            name="state"
             :class="['state_' + state]"
             v-model="book.status"
+            type="radio"
             :value="state"
             required
           />
           <span>{{ state }}</span>
         </label>
-
-        <span class="errorM"></span>
+        <br>
+        <ErrorMessage class="errorM" name="state" />
       </div>
-
       <div>
         <label for="comments">Comentarios:</label>
-        <textarea v-model="book.comments" id="comments"></textarea>
+        <Field
+          as="textarea"
+          name="comments"
+          v-model="book.comments"
+          type="text"
+          required
+        />
+        <br>
+        <ErrorMessage class="errorM" name="comments" />
       </div>
-
       <button v-if="!book.id" type="submit">Añadir</button>
       <button v-else type="submit">Editar</button>
       <button type="reset">Reset</button>
-    </form>
+    </Form>
   </div>
 </template>

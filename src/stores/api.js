@@ -14,6 +14,7 @@ export const books = {
   create: (book) => apiClient.post(`/books`, book),
   modify: (book) => apiClient.put(`/books/${book.id}`, book),
   delete: (id) => apiClient.delete(`/books/${id}`),
+  bookExist: (book) => apiClient.get(`/books/?moduleCode=${book.moduleCode}&userId=${book.userId}`),
 };
 export const modules = {
   getAll: () => apiClient.get(`/modules`),

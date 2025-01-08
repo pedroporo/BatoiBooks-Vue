@@ -10,12 +10,25 @@ export const useBooksStore = defineStore("bookStore", {
   },
   getters: {
     getBook: (state) => async (bookId) => (await api.books.getOne(bookId)).data,
+    bExists: (state) => async (book) => (await api.books.bookExist(book)).data,
   },
   actions: {
     async populateBooks() {
       try {
         const response = await api.books.getAll();
         this.books = response.data;
+      } catch (response) {
+        console.error("Error: " + response.message);
+      }
+    },
+    async bExists(book) {
+      try {
+        const bookApi = await api.books.bookExist(book).data;
+        return (
+          book.id !== bookApi.id &&
+          book.moduleCode === bookApi.moduleCode &&
+          book.userId === bookApi.userId
+        );
       } catch (response) {
         console.error("Error: " + response.message);
       }

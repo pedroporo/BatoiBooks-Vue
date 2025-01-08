@@ -5,6 +5,17 @@ import { useModulesStore } from "../stores/modulesStore";
 import { mapState, mapActions } from "pinia";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
+/*yup.addMethod(yup.Schema, "fbookExist", function (errorMessage) {
+  return this.test(`book`, errorMessage, async function (value) {
+    const bookApi = await this.exists(this.book);
+    return (
+      (value.id !== bookApi.id &&
+        value.moduleCode === bookApi.moduleCode &&
+        value.userId === bookApi.userId) ||
+      createError({ path, message: errorMessage })
+    );
+  });
+});*/
 export default {
   name: "AddBok",
   components: {
@@ -14,11 +25,39 @@ export default {
   },
   data() {
     const bookSchema = yup.object({
-      moduleCode: yup.string().required('Tienes que seleccionar algun modulo'),
-      publisher: yup.string().required('La Editorial es OBLIGATORIA'),
-      price: yup.number('En este campo solo se permiten numeros').required('Lo siento esto no es gratis, tienes que meter un precio').min(0,'El precio ha de ser mayor que 0'),
-      pages: yup.number('En este campo solo se permiten numeros').required('¿Como pretendes registrar un libro si no lo presentas?').min(0,'¿Que quieres entregar, la portada solamente? Añade mas de 0 paginas'),
-      state: yup.string('¿Como te las has apañado para meter algo que no es un texto aqui?').required('¿Por que no quieres meter el estado del libro?¿Que escondes?').matches(/(new|good|used|bad)/,'Oye, solo se puede seleccionar new,good,used,bad. ¿Como te las arreglaste para meter algo que no sea eso?'),
+      moduleCode: yup.string().required("Tienes que seleccionar algun modulo"),
+      publisher: yup.string().required("La Editorial es OBLIGATORIA"),
+      price: yup
+        .number("En este campo solo se permiten numeros")
+        .required("Lo siento esto no es gratis, tienes que meter un precio")
+        .min(0, "El precio ha de ser mayor que 0"),
+      pages: yup
+        .number("En este campo solo se permiten numeros")
+        .required("¿Como pretendes registrar un libro si no lo presentas?")
+        .min(
+          0,
+          "¿Que quieres entregar, la portada solamente? Añade mas de 0 paginas"
+        ),
+      state: yup
+        .string(
+          "¿Como te las has apañado para meter algo que no es un texto aqui?"
+        )
+        .required(
+          "¿Por que no quieres meter el estado del libro?¿Que escondes?"
+        )
+        .matches(
+          /(new|good|used|bad)/,
+          "Oye, solo se puede seleccionar new,good,used,bad. ¿Como te las arreglaste para meter algo que no sea eso?"
+        ),
+      /*book: yup.string().test(`book-exist`, 'Lo siento, ya tienes un libro con este modulo presentado', async function (value) {
+        const bookApi = await this.bExists(value);
+        return (
+          (value.id !== bookApi.id &&
+            value.moduleCode === bookApi.moduleCode &&
+            value.userId === bookApi.userId) ||
+          createError({ path, message: 'Lo siento, ya tienes un libro con este modulo presentado' })
+        );
+      }),*/
     });
     return {
       book: {},
@@ -84,6 +123,7 @@ export default {
       @submit="addBooks"
       @reset="controlForm"
     >
+      <ErrorMessage class="errorM" name="book" />
       <div :class="{ hidden: !book.id }">
         <label for="id" id="label-id-book">Id:</label>
         <Field name="id" v-model.number="book.id" type="number" disabled />
@@ -102,13 +142,13 @@ export default {
             {{ module.cliteral }}
           </option>
         </Field>
-        <br>
+        <br />
         <ErrorMessage class="errorM" name="moduleCode" />
       </div>
       <div>
         <label for="publisher">Editorial:</label>
         <Field name="publisher" v-model="book.publisher" type="text" required />
-        <br>
+        <br />
         <ErrorMessage class="errorM" name="publisher" />
       </div>
       <div>
@@ -121,7 +161,7 @@ export default {
           step="0.01"
           required
         />
-        <br>
+        <br />
         <ErrorMessage class="errorM" name="price" />
       </div>
       <div>
@@ -134,7 +174,7 @@ export default {
           step="1"
           required
         />
-        <br>
+        <br />
         <ErrorMessage class="errorM" name="pages" />
       </div>
       <div id="status">
@@ -151,7 +191,7 @@ export default {
           />
           <span>{{ state }}</span>
         </label>
-        <br>
+        <br />
         <ErrorMessage class="errorM" name="state" />
       </div>
       <div>
@@ -163,7 +203,7 @@ export default {
           type="text"
           required
         />
-        <br>
+        <br />
         <ErrorMessage class="errorM" name="comments" />
       </div>
       <button v-if="!book.id" type="submit">Añadir</button>

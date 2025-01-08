@@ -2,6 +2,7 @@
 //import { store } from "@/stores/store";
 import { useBooksStore } from "../stores/bookStore";
 import { useModulesStore } from "../stores/modulesStore";
+import { useMessageStore } from "@/stores/messagesStore";
 import { mapState, mapActions } from "pinia";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
@@ -81,12 +82,17 @@ export default {
     ...mapState(useBooksStore, {
       states: "states",
       getBook: "getBook",
+      bExists: "bExists",
     }),
   },
   methods: {
     async addBooks() {
       try {
         this.book.userId = 5;
+        if (this.checkExist()) {
+          this.addMessage("error", "Ya tienes un libro con este modulo");
+          throw new Error("dsfs");
+        }
         if (!this.book.id) {
           await this.addBook(this.book);
         } else {
@@ -105,10 +111,19 @@ export default {
         this.getBookId();
       }
     },
+    async checkExist() {
+      const bookApi = await this.bExists(this.book);
+      return (
+        this.book.id !== bookApi.id &&
+        this.book.moduleCode === bookApi.moduleCode &&
+        this.book.userId === bookApi.userId
+      );
+    },
     async getBookId() {
       this.book = await this.getBook(this.$route.params.id);
     },
     ...mapActions(useBooksStore, ["modBook", "addBook"]),
+    ...mapActions(useMessageStore, ["addMessage"]),
   },
 };
 </script>

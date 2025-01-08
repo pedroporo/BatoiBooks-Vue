@@ -21,18 +21,6 @@ export const useBooksStore = defineStore("bookStore", {
         console.error("Error: " + response.message);
       }
     },
-    async bExists(book) {
-      try {
-        const bookApi = await api.books.bookExist(book).data;
-        return (
-          book.id !== bookApi.id &&
-          book.moduleCode === bookApi.moduleCode &&
-          book.userId === bookApi.userId
-        );
-      } catch (response) {
-        console.error("Error: " + response.message);
-      }
-    },
     async addBook(book) {
       try {
         const response = await api.books.create(book);
